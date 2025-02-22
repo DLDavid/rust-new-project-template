@@ -9,25 +9,19 @@ rust-version:
 	rustup --version			#rust toolchain manager
 	clippy-driver --version		#rust linter
 
+format:
+	cargo fmt --quiet
 
-help:
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
+lint:
+	cargo clippy --quiet
 
-clean: ## Clean the project using cargo
-	cargo clean
+test:
+	cargo test --quiet
 
-build: ## Build the project using cargo
-	cargo build
+run:
+	cargo run
 
-lint: ## Lint the project using cargo
-	@rustup component add clippy 2> /dev/null
-	cargo clippy
-
-fmt: ## Format the project using cargo
-	@rustup component add rustfmt 2> /dev/null
-	cargo fmt
-
-release: ## Build a release version of the project using cargo
+release:
 	cargo build --release
 
-all: fmt lint test run
+all: format lint test runall: fmt lint test run
